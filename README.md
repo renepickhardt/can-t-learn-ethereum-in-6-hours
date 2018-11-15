@@ -13,6 +13,17 @@ A quick google search explains how there is no UTXO set in Etherum which would h
 
 I followed this tutorial ( https://gist.github.com/cryptogoth/10a98e8078cfd69f7ca892ddbdcf26bc ) to get my rinkesby testnet node running. There was no particular reason why I opted for the rinkesby testnet. While searching for general information this tutorial seemed good. Since I did not want to reimplement the data format for the blocks and transactions I looked for an ethereum blockchain parser which I found in this git respository: https://github.com/Great-Hill-Corporation/quickBlocks I followed the install instructions and particularly this issues https://github.com/Great-Hill-Corporation/quickBlocks/issues/632 to adapt this file: https://github.com/Great-Hill-Corporation/quickBlocks/blob/7b38e3777d1a184f4ba479438b4d482cd7ed5962/src/examples/simple/simple.cpp with which I was now able to extract every block and print the out the data in a human readable json format to stdout. This cpp-file took less than 1 minute to extract 10k blocks. With roughly 3.5 Million blocks this would run 350 Minutes or roughly 6 hours which I thought is fair enough.
 
+## choices made:
+- cpp for the parser as the lib was in cpp
+- python for the indexer as I usually do data science and data processing tasks in python and it seemed fit (in particular the indexer was faster than the parser anyway
+
+## sketch of the solution
+- extract the transactions (with the help of the cpp lib)
+- index the transactions so that the query can be answered
+- limitations: if the amount of addresses / transactions grows over memory limit one has to use a map reduce like style and some persistant files (as discussed above this should not have been necessary)
+
+## more details
+
 The JSON of block 3911 looked like this:
 ```
 {
